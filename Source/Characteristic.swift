@@ -41,7 +41,11 @@ public class Characteristic {
     }
 
     convenience init(characteristic: CBCharacteristic, peripheral: Peripheral) {
+        #if swift(>=5.5)
+        let service = Service(peripheral: peripheral, service: characteristic.service!)
+        #else
         let service = Service(peripheral: peripheral, service: characteristic.service)
+        #endif
         self.init(characteristic: characteristic, service: service)
     }
 

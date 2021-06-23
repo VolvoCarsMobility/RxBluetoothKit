@@ -29,8 +29,13 @@ public class Descriptor {
     }
 
     convenience init(descriptor: CBDescriptor, peripheral: Peripheral) {
+        #if swift(>=5.5)
+        let service = Service(peripheral: peripheral, service: descriptor.characteristic!.service!)
+        let characteristic = Characteristic(characteristic: descriptor.characteristic!, service: service)
+        #else
         let service = Service(peripheral: peripheral, service: descriptor.characteristic.service)
         let characteristic = Characteristic(characteristic: descriptor.characteristic, service: service)
+        #endif
         self.init(descriptor: descriptor, characteristic: characteristic)
     }
 
